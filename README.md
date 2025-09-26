@@ -1,87 +1,155 @@
-# Instruções de Configuração do Projeto
+# E-Acelera Backend
 
-### Passos iniciais: 
+Backend da aplicação E-Acelera, migrado do Stackby para uma arquitetura baseada em GitHub Actions e deploy na nuvem.
 
-1. Execute o comando para instalar as dependências do projeto:
-   ```bash
-   npm install
-   ```
+## 🚀 Tecnologias
 
-2. Crie um banco de dados PostgreSQL no DBeaver ou PgAdmin com o nome **eacelera-dev**.
+- **Node.js** com **TypeScript**
+- **Express.js** para API REST
+- **Prisma** como ORM
+- **PostgreSQL** como banco de dados
+- **Jest** para testes
+- **GitHub Actions** para CI/CD
+- **Vercel** para deploy
 
-3. Na raiz do projeto, crie um arquivo `.env`.
+## 📋 Pré-requisitos
 
-4. Adicione a seguinte variável de ambiente ao arquivo `.env` para configurar a conexão com o banco de dados:
-   ```env
-   DATABASE_URL=postgres://{seu_usuario}:{sua_senha}@localhost:5432/eacelera-dev
-   ```
-   Substitua `{seu_usuario}` e `{sua_senha}` pelos seus dados de acesso ao banco no DBeaver ou PgAdmin.
+- Node.js 18+
+- PostgreSQL
+- npm ou yarn
 
----
+## 🛠️ Instalação
 
-# Gerenciamento de Migrações
-
-### Aplicar migrações no ambiente local:
-
-- Para aplicar as migrações pendentes no banco de dados de desenvolvimento local, use o comando:
-   ```bash
-   npx prisma migrate dev
-   ```
-
-### Aplicar migrações no ambiente de Staging:
-
-- Para aplicar migrações no banco de dados do ambiente de staging, utilize:
-   ```bash
-   npx prisma migrate deploy
-   ```
-
-# Criar Migrações
-
-- Para gerar uma nova migração no ambiente local, use o seguinte comando, substituindo `{nome_da_migracao}` por uma descrição da migração:
-   ```bash
-   npx prisma migrate dev --name {nome_da_migracao}
-   ```
-
-   **Importante:**
-   - Sempre crie as migrações localmente, na sua branch de desenvolvimento. 
-   - Nunca crie ou aplique migrações diretamente na branch de staging.
-   - Certifique-se de que o diretório `prisma/migrations` seja comitado no repositório Git após a criação das migrações.
-
-# Deploy BACKEND: (Vercel)
-### Etapas: feature → main → staging
-
-1. Atualizar a branch main local
+1. Clone o repositório:
 ```bash
-git checkout main
-git pull origin main
+git clone https://github.com/GabrielleGobbi/e-acelaraTest2ComAPIeActionBack.git
+cd e-acelaraTest2ComAPIeActionBack
 ```
-2. Criar PR da feature para main (no GitHub)
-   
-- Vá até o GitHub > Pull Requests > New Pull Request.
-- Base: main | Compare: feature/nome-da-sua-branch
-- Escreva o título e descrição do que foi feito.
-- Após aprovação do time, clique em Merge pull request > Confirm merge.
 
-### Obs:
-Deploy no Vercel (automaticamente após merge na main): Vercel detecta mudanças na branch main e faz o deploy no ambiente configurado (staging).
-
-### Para acompanhar:
-- Acesse: https://vercel.com/dashboard
-- Clique no projeto e-acelera-back
-- Veja a aba Deploys e abra o log se necessário
-
-3. Atualizar a branch staging com o código da main
+2. Instale as dependências:
 ```bash
-git checkout staging
-git pull origin staging
-git merge main
-git push origin staging
+npm install
 ```
-### Obs:
-Embora o Vercel use main para deploy, manter staging atualizado garante padronização e controle de histórico.
 
-4. Verificar se está no ar
-- Acesse:https://e-acelera-back.vercel.app/
-- Teste endpoints e rotas.
-- Valide se a funcionalidade foi publicada corretamente.
-- Se tudo estiver ok, o card pode ser movido para PRONTO (não há produção separada).
+3. Configure as variáveis de ambiente:
+```bash
+cp .env.example .env
+# Edite o arquivo .env com suas configurações
+```
+
+4. Execute as migrações do banco:
+```bash
+npx prisma migrate deploy
+npx prisma generate
+```
+
+5. Inicie o servidor:
+```bash
+npm run dev
+```
+
+## 🧪 Testes
+
+```bash
+# Executar todos os testes
+npm test
+
+# Executar testes com coverage
+npm run test:coverage
+```
+
+## 🚀 Deploy
+
+### Deploy Automático (Recomendado)
+
+O projeto está configurado para deploy automático via GitHub Actions:
+
+1. **Vercel**: Configure as secrets no GitHub:
+   - `VERCEL_TOKEN`
+   - `VERCEL_ORG_ID` 
+   - `VERCEL_PROJECT_ID`
+
+2. **Banco de Dados**: Configure uma instância PostgreSQL na nuvem:
+   - [Supabase](https://supabase.com) (Recomendado)
+   - [Railway](https://railway.app)
+   - [PlanetScale](https://planetscale.com)
+
+### Deploy Manual
+
+```bash
+# Build do projeto
+npm run build
+
+# Deploy para Vercel
+npx vercel --prod
+```
+
+## 📊 Banco de Dados
+
+### Configuração na Nuvem
+
+#### Supabase (Recomendado)
+1. Crie uma conta no [Supabase](https://supabase.com)
+2. Crie um novo projeto
+3. Copie a connection string
+4. Configure a variável `DATABASE_URL` no seu ambiente
+
+#### Railway
+1. Crie uma conta no [Railway](https://railway.app)
+2. Adicione um serviço PostgreSQL
+3. Copie a connection string
+4. Configure a variável `DATABASE_URL`
+
+### Migrações
+
+```bash
+# Aplicar migrações
+npx prisma migrate deploy
+
+# Gerar cliente Prisma
+npx prisma generate
+
+# Visualizar banco (opcional)
+npx prisma studio
+```
+
+## 🔧 Scripts Disponíveis
+
+- `npm start` - Inicia o servidor em produção
+- `npm run dev` - Inicia o servidor em modo desenvolvimento
+- `npm test` - Executa os testes
+- `npm run test:coverage` - Executa testes com coverage
+- `npm run build` - Aplica migrações do banco
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── controllers/     # Controladores da API
+├── services/        # Lógica de negócio
+├── middleware/      # Middlewares do Express
+├── routes/          # Definição das rotas
+├── types/           # Definições de tipos TypeScript
+├── utils/           # Utilitários
+└── index.ts         # Ponto de entrada da aplicação
+```
+
+## 🔐 Variáveis de Ambiente
+
+Veja o arquivo `.env.example` para todas as variáveis necessárias.
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença ISC. Veja o arquivo `package.json` para mais detalhes.
+
+## 🆘 Suporte
+
+Para suporte, abra uma issue no repositório ou entre em contato com a equipe.
