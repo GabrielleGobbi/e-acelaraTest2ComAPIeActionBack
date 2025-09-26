@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  provider  String
+  loginDate DateTime
+  Progress  Progress[]
+}
+
+model Progress {
+  itemId  String
+  topicId String
+  themeId String
+
+  itemStatus  ItemStatus
+  elementType ElementType
+  modifiedAt  DateTime    @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  @@unique([itemId, userId])
+}
+
+enum ItemStatus {
+  NotStarted
+  InProgress
+  Completed
+}
+
+enum ElementType {
+  Video
+  Exercise
+}
