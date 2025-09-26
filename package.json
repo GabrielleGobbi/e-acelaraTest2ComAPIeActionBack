@@ -6,12 +6,9 @@
   "scripts": {
     "start": "npx tsx src/index.ts",
     "dev": "nodemon --watch src --exec tsx src/index.ts",
-    "build": "npx tsc && npx prisma generate",
-    "build:deploy": "npx prisma migrate deploy",
+    "build": "npx prisma migrate deploy",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "lint": "npx tsc --noEmit",
-    "lint:fix": "npx tsc --noEmit --fix",
     "postinstall": "npx prisma generate",
     "content:list": "node ../scripts/content-manager.js list",
     "content:validate": "node ../scripts/content-manager.js validate",

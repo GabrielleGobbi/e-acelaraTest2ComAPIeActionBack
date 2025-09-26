@@ -11,18 +11,5 @@
         "src": "(.*)",
         "dest": "src/index.ts"
       }
-    ],
-    "env": {
-      "NODE_ENV": "production"
-    },
-    "build": {
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "functions": {
-      "src/index.ts": {
-        "maxDuration": 30
-      }
-    }
+    ]
   }

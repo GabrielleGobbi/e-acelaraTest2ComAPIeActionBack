@@ -1,16 +1,4 @@
-# E-Acelera Backend
-
-Backend da aplicação E-Acelera, migrado do Stackby para uma arquitetura baseada em GitHub + Prisma + PostgreSQL.
-
-## 🚀 Migração do Stackby
-
-Este projeto foi migrado do Stackby para uma solução baseada em código, utilizando:
-- **GitHub** para versionamento e CI/CD
-- **Prisma** para ORM e migrações de banco
-- **PostgreSQL** como banco de dados principal
-- **Vercel** para deploy automático
-
-## 📋 Instruções de Configuração do Projeto
+# Instruções de Configuração do Projeto
 
 ### Passos iniciais: 
 
@@ -97,30 +85,3 @@ Embora o Vercel use main para deploy, manter staging atualizado garante padroniz
 - Teste endpoints e rotas.
 - Valide se a funcionalidade foi publicada corretamente.
 - Se tudo estiver ok, o card pode ser movido para PRONTO (não há produção separada).
-
-## 🔄 GitHub Actions & CI/CD
-
-O projeto utiliza GitHub Actions para automação:
-
-### Workflows disponíveis:
-- **CI**: Executa testes automaticamente em cada PR
-- **Deploy**: Deploy automático para Vercel quando há merge na main
-- **Database Migration**: Aplica migrações automaticamente no deploy
-
-### Configuração:
-1. As variáveis de ambiente são configuradas no GitHub Secrets
-2. O deploy é automático via Vercel integration
-3. Testes são executados em cada pull request
-
-## 🗄️ Migração de Dados do Stackby
-
-### Processo de migração:
-1. **Backup dos dados**: Exportar todos os dados do Stackby
-2. **Mapeamento**: Mapear tabelas do Stackby para o schema Prisma
-3. **Scripts de migração**: Criar scripts para importar dados
-4. **Validação**: Verificar integridade dos dados migrados
-
-### Estrutura do banco:
-- Todas as tabelas são definidas no `prisma/schema.prisma`
-- Migrações são versionadas no diretório `prisma/migrations/`
-- Seeders podem ser criados para dados iniciais
